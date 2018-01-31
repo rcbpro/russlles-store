@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?=$html_title?></title>
+<link href="<?php echo CSS_PATH?>global.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo CSS_PATH?>CalendarControl.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.header{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($heading_image)) ? $heading_image : "")?>) 0 0 no-repeat;
+}	
+.banner{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($banner_image)) ? $banner_image : "")?>) 0 0 no-repeat;
+}
+</style>
+<script src="<?php echo JS_PATH?>CalendarControl.js" language="javascript"></script>
+<script src="<?php echo JS_PATH?>jquery-1.7.1.min.js" language="javascript"></script>
+<script src="<?php echo JS_PATH?>jquery.validate.min.js" language="javascript"></script>
+<script src="<?php echo JS_PATH?>jquery.validate.creditcardtypes.js" language="javascript"></script>
+</head>
+<body>
+<div id="framesheet">
+	<div id="header" class="header">
+		<div class="view-cart"><a href="cart.php"><span class="invisible">View Cart</span></a></div>
+		<div class="news"><a href="news.php"><span class="invisible">News</span></a></div>
+		<div class="blog"><a href="blog.php"><span class="invisible">Blog</span></a></div>
+		<div class="email-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Email Us</span></a></div>
+	</div>
+	<div id="content-body">
+		<div id="banner" class="banner"></div>
+		<div class="back-to-home"><a href="<?php echo WEB_PATH?>index.php">Back To Shop Page</a></div>
+		<div id="shop-box">
+			<div id="payment-box">
+            	<?php if ((isset($error_message)) && ($error_message != "")):?>
+                <span id="productQtyErrorMessage">Please fix these errors !</span>
+                <?php elseif ((isset($error_message_in_payment)) && ($error_message_in_payment != "")):?>
+                <span id="productQtyErrorMessage"><br /><?php echo $error_message_in_payment;?></span>
+                <?php elseif ((isset($error_message_in_cart)) && ($error_message_in_cart != "")):?>
+                <span id="productQtyErrorMessage">Your cart is empty !<br /></span>
+                <?php endif;?>
+				<div id="payment-header"><h1>Payment</h1><span>(Credit Cards payment only)</span><br /><span class="required">* required !</span></div>
+				<div id="payment-data">
+					<div id="payment-form">
+						<form name="checkoutForm" method="post" action="">
+							<div class="form-lable-column">
+								<div class="form-lable">Credit Card Number</div>
+								<div class="form-lable">Credit Type</div>
+								<div class="form-lable">CC number</div>
+								<div class="form-lable">Expiration Date</div>
+								<div class="form-lable">&nbsp;</div>
+							</div>
+							<div class="form-element-column">
+								<div class="form-element"><span class="required">*</span> <input type="text" class="input-element <?php echo ((isset($errors)) && (in_array("credit_card_number", $errors['errorFields']))) ? 'errorInBack' : ''?>" name="checkoutdetails[credit_card_number]" /></div>
+								<div class="form-element"><span class="required">*</span> <input type="text" class="input-element <?php echo ((isset($errors)) && (in_array("credit_card_type", $errors['errorFields']))) ? 'errorInBack' : ''?>" name="checkoutdetails[credit_card_type]" /></div>
+								<div class="form-element"><span class="required">*</span> <input type="text" class="input-element <?php echo ((isset($errors)) && (in_array("cc_number", $errors['errorFields']))) ? 'errorInBack' : ''?>" name="checkoutdetails[cc_number]" /></div>
+								<div class="form-element"><span class="required">*</span> <input type="text" class="input-element-sm <?php echo ((isset($errors)) && (in_array("expiry_date", $errors['errorFields']))) ? 'errorInBack' : ''?>" onfocus="showCalendarControl(this);" name="checkoutdetails[expiry_date]" /></div>
+								<div class="form-element-btn"><input type="submit" value="Checkout" class="complete-purchase-btn-element"></div>					
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br /><br /><br />
+	</div>
+	<div id="footer">
+		<div class="home"><a href="<?php echo WEB_PATH?>"><span class="invisible">Home</span></a></div>
+		<div class="contact-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Contact Us</span></a></div>
+		<div class="privacy-policy"><a href="<?php echo WEB_PATH?>privacy_policy.php"><span class="invisible">Privacy Policy</span></a></div>
+	</div>
+</div>
+</body>
+</html>

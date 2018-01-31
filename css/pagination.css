@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+
+div.pagination {
+	padding: 3px;
+	padding-left:0;
+	margin: 3px;
+	margin-left:0;
+	text-align:center;
+}
+div.pagination a {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #2299BB;	
+	text-decoration: none; /* no underline */
+	color: #000;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+}
+div.pagination a:hover, div.pagination a:active {
+	border: 1px solid #000;
+	color: #000;
+	font-family:Verdana, Arial, Helvetica, sans-serif;	
+	font-size:12px;	
+	font-weight:bold;	
+}
+div.pagination span.current {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #2299BB;		
+	font-weight: bold;
+	background-color: #666677;
+	color: #FFF;
+	font-family:Verdana, Arial, Helvetica, sans-serif;	
+	font-size:12px;	
+}
+div.pagination span.disabled {
+	padding: 2px 5px 2px 5px;
+	margin: 2px;
+	border: 1px solid #EEE;	
+	color: #DDD;
+	font-family:Verdana, Arial, Helvetica, sans-serif;	
+	font-size:12px;	
+	font-weight:bold;	
+}	

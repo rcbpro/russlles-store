@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?=$html_title?></title>
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH?>global.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH?>jquery.lightbox-0.5.css" media="screen" />
+<style type="text/css">
+.header{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($heading_image)) ? $heading_image : "")?>) 0 0 no-repeat;
+}	
+.banner{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($banner_image)) ? $banner_image : "")?>) 0 0 no-repeat;
+}
+</style>
+<script type="text/javascript" language="javascript" src="<?php echo JS_PATH?>jquery-1.7.1.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo JS_PATH?>other.js.php"></script>
+<script language="javascript" src="<?php echo JS_PATH?>jquery-1.7.1.min.js" type="text/javascript"></script>
+<script language="javascript" src="<?php echo JS_PATH?>jquery.lightbox-0.5.min.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+$(function() {
+	$('#shop-box a').lightBox();
+});
+$(document).ready(function(){
+	$('.alpha').keyup(function() {
+		if (!this.value.match(/[^a-zA-Z0]/g)) {
+			this.value = this.value.replace(/[^1-9 ]/g, '1');
+		}
+	});
+});				
+</script>
+</head>
+<body>
+<div id="framesheet">
+	<div id="header" class="header">
+		<div class="view-cart"><a href="cart.php"><span class="invisible">View Cart</span></a></div>
+		<div class="news"><a href="news.php"><span class="invisible">News</span></a></div>
+		<div class="blog"><a href="blog.php"><span class="invisible">Blog</span></a></div>
+		<div class="email-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Email Us</span></a></div>
+	</div>
+	<div id="content-body">
+		<div id="banner" class="banner"></div>
+		<div class="back-to-home"><a href="<?php echo WEB_PATH?>index.php">Back To Shop Page</a></div>
+		<div id="shop-box">
+			<div class="your-cart">
+            	<span class="invisible">Your Cart</span>
+                <span style="margin-left:150px;">(Weight - 3lb Refill Bag, 3lb => $<?=SHIPPING_CHARGES_OPT2?> X Quantity</span>
+                <span style="margin-left:25px; color:#069;">Shipping Charges</span>                
+                <span style="margin-left:25px;">Weight - 0.5lb Sample, 1.5lb => $<?=SHIPPING_CHARGES_OPT1?> X Quantity)</span>                
+            </div>
+            <form name="cartForm" action="" method="post">
+			<table width="854" border="0" cellspacing="0" cellpadding="0" class="cart-table">
+				<tr class="table-header">
+					<td width="554">Item name</td>
+					<td width="75">Price</td>
+					<td width="75">Quantity</td>
+					<td width="75">Total</td>
+					<td width="75">Remove</td>
+				</tr>
+                <?php if ((isset($_SESSION['cart_details'])) && (!empty($_SESSION['cart_details']))):?>
+                <?php
+                	$i = 1;
+                    $_SESSION['totalCartExp'] = 0; 
+                	foreach($_SESSION['cart_details'] as $productKey => $productCartDetails):
+                    	$productDetails = $productsClass->getProductDetailsById($productKey);
+                    ?>
+				<tr class="white-line">
+					<td colspan="5"><img src="<?php echo PUBLIC_PATH?>/images/white-line.gif" height="40px" /></td>
+				</tr>
+				<tr class="table-row">
+					<td width="454">
+						<table width="407" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td width="67px"><a href="<?php echo PRODUCT_IMAGES_PATH.$productDetails['product_image']?>"><img src="<?php echo PRODUCT_IMAGES_PATH.$productDetails['product_image']?>" width="100" height="100" style="border:1px solid #cccccc;" /></a></td>
+								<td width="340px" valign="middle">
+                                	&nbsp;<h3><strong style="margin-left:10px;"><?=($productDetails['product_name'])?></strong></h3><br /> 
+                                    <table width="340px" border="0" cellpadding="0" cellspacing="0">
+                                    	<thead>
+                                        	<th align="center" colspan="2">&nbsp;&nbsp;Weight</th>
+                                        	<th colspan="3" align="center">Shipping Charges</th>                                            
+                                        </thead>
+                                        <?php foreach($productCartDetails as $eachWeightKey => $eachWeightDetails):?>
+                                            <?php $qty = 0;?>
+                                            <?php foreach($eachWeightDetails as $eachDetail):?>
+                                                <?php $qty += $eachDetail['product_qty']?>											                                                                     	
+                                            <?php endforeach;?>	
+                                            <tr>
+                                            	<td>
+		                                            &nbsp;&nbsp;<span class="cart-table">(<?=$eachDetail['product_weight']?> ) : </span>
+                                                </td>
+                                                <td>
+	                                                 <span>($<?=$eachDetail['product_price']?> X <?=$qty?> = $<?php echo sprintf('%01.2f', ($eachDetail['product_price'] * $qty));?>)</span>
+                                                </td>	
+                                                <td>&nbsp;&nbsp;<strong>+</strong>&nbsp;&nbsp;</td>
+                                                <td align="center">
+                                                    <?php if (($eachDetail['product_weight'] == "3lb") || ($eachDetail['product_weight'] == "3lb_Refill_Bag")):?>
+                                                        <?php echo "($".SHIPPING_CHARGES_OPT2 . " X " . $qty . "</td><td align='left'> =&nbsp;&nbsp;$" .sprintf('%01.2f', (SHIPPING_CHARGES_OPT2 * $qty)).")"?>
+                                                    <?php else:?>
+                                                        <?php echo "($".SHIPPING_CHARGES_OPT1 . " X " . $qty . "</td><td align='left'> =&nbsp;&nbsp;$" .sprintf('%01.2f', (SHIPPING_CHARGES_OPT1 * $qty)).")"?>                                        
+                                                    <?php endif;?>
+                                            	</td>
+                                            </tr>
+                                        <?php endforeach;?>
+									</table>
+                                </td>
+							</tr>
+						</table>
+                    </td>
+					<td width="100"><br /><br /><br /><br />   
+                        <?php foreach($productCartDetails as $eachWeightKey => $eachWeightDetails):?>
+                            <?php $qty = 0;?>
+                            <?php foreach($eachWeightDetails as $eachDetail):?>
+                                <?php $qty += $eachDetail['product_qty']?>											                                                                     	
+                            <?php endforeach;?>
+                            <?php if (($eachDetail['product_weight'] == "3lb") || ($eachDetail['product_weight'] == "3lb_Refill_Bag")):?>
+                               	<?php $shipping_charges = SHIPPING_CHARGES_OPT2 * $qty?>
+                            <?php else:?>
+                               	<?php $shipping_charges = SHIPPING_CHARGES_OPT1 * $qty?>                                        
+                            <?php endif;?>
+                            <span class="cart-table">$<?=sprintf('%01.2f', ($eachDetail['product_price'] * $qty) + $shipping_charges)?></span><br />        								
+                        <?php endforeach;?>
+                        <?php $totalCartExp += ($eachDetail['product_price'] * $qty)?>
+                    </td>
+					<td width="100"><br /><br /><br /><br />
+                        <!--<input type="hidden" name="product[<?php echo $cartItem['product_id']?>][product_id]" value="<?php echo $cartItem['product_id']?>" />-->
+                        <?php $i = 0;?>	
+                        <?php foreach($productCartDetails as $eachWeightKey => $eachWeightDetails):?>                        	
+                            <?php $qty = 0;?>
+                            <?php foreach($eachWeightDetails as $eachDetail):?>
+                               	<?php $qty += $eachDetail['product_qty']?>											                                                                     	
+                            <?php endforeach;?>	
+                            <input name="cart_details[<?=$productKey?>][<?=$eachDetail['product_weight']?>][<?=$i?>][product_qty]" class="alpha" type="text" style="margin-left:20px; width:35px;" value="<?=$qty?>" /><br />                            
+                            <input name="cart_details[<?=$productKey?>][<?=$eachDetail['product_weight']?>][<?=$i?>][product_weight]" id="quantityPerDozenWeight_<?=$eachDetail['product_weight']?>" type="hidden" value="<?=$eachDetail['product_weight']?>" />                        
+                            <input name="cart_details[<?=$productKey?>][<?=$eachDetail['product_weight']?>][<?=$i?>][product_price]" id="quantityPerDozenPrice_<?=$eachDetail['product_price']?>" type="hidden" value="<?=$eachDetail['product_price']?>" />                                                
+                            <input name="cart_details[<?=$productKey?>][<?=$eachDetail['product_weight']?>][<?=$i?>][quantityPerDozenProductId]" id="quantityPerDozenProductId_<?=$productKey?>" type="hidden" value="<?=$productKey?>" />                                                
+							<?php $i++;?>
+                        <?php endforeach;?>
+                    </td>
+					<td width="100"><br /><br /><br /><br />
+                        <?php $qty = 0;
+                              $total_price = 0;
+                        ?>                    
+                        <?php foreach($productCartDetails as $eachWeightKey => $eachWeightDetails):?>
+                            <?php foreach($eachWeightDetails as $eachDetail):?>
+                                <?php $qty += $eachDetail['product_qty']?>
+                                <?php if (($eachDetail['product_weight'] == "3lb") || ($eachDetail['product_weight'] == "3lb_Refill_Bag")):?>
+                                    <?php $shipping_charges = SHIPPING_CHARGES_OPT2 * $eachDetail['product_qty']?>
+                                <?php else:?>
+                                    <?php $shipping_charges = SHIPPING_CHARGES_OPT1 * $eachDetail['product_qty']?>                                        
+                                <?php endif;?>
+                                <?php $total_price += (($eachDetail['product_price'] * $eachDetail['product_qty']) + $shipping_charges)?>											                                                                     	
+                            <?php endforeach;?>	
+                        <?php endforeach;?>
+                        <span class="cart-table">$<?=sprintf('%01.2f', $total_price)?></span><br />   
+                        <?php $_SESSION['totalCartExp'] += $total_price;?>     								                        
+                    </td>
+					<td width="100"><?php $i = 0;?><br /><br /><br /><br />
+                        <?php foreach($productCartDetails as $eachWeightKey => $eachWeightDetails):?>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkboxRemoveItem[<?=$productKey?>][<?=$eachWeightKey?>][<?=$i?>]" id="checkbox" />&nbsp;<br />
+                            <?php $i++;?>
+                        <?php endforeach;?>
+                    </td>
+				</tr>
+				<tr class="white-line">
+					<td colspan="5"><img src="<?php echo PUBLIC_PATH?>/images/white-line.gif" height="40px" /></td>
+				</tr>				
+				<tr class="gray-line">
+					<td colspan="5"><img src="<?php echo PUBLIC_PATH?>/images/gray-line.gif" height="40px" /></td>                
+				</tr>
+                <?php
+                	$i++; 
+                	endforeach;
+                ?>
+                <?php else:?>
+				<tr class="white-line">
+					<td colspan="5" align="center">
+	                	<span id="productQtyInfoMessage"><br />Your cart is empty !</span><br /><br />
+                	</td>
+				</tr>	
+                <?php endif;?>
+                <?php if ((isset($_SESSION['cart_details'])) && (!empty($_SESSION['cart_details']))):?>
+				<tr class="total-row">
+					<td colspan="5">
+						<table width="854" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td width="200px" class="mar-text"><strong>Monthly Recurring Order</strong></td>
+								<td width="354px"><input type="checkbox" name="checkbox" id="checkbox" /></td>
+								<td width="200px"><strong>Merchadise Total</strong></td>
+								<td width="100px"><br />
+                                    <?php $cartItemTotFinalPrice = "";?>
+                                    <?php foreach($_SESSION['cart_details'] as $eachCartItem):?>
+                                        <?php $cartItemTotFinalPrice += sprintf('%01.2f', $eachCartItem['price'] * $eachCartItem['qty']);?>
+                                    <?php endforeach;?>
+                                    <strong>$<?php echo sprintf('%01.2f', $_SESSION['totalCartExp']);?></strong><br /><br />
+                                </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+                <?php endif;?>                
+				<tr class="action-row">
+					<td colspan="5">
+						<table width="854" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td width="280px" align="center">
+                					<?php if ((isset($_SESSION['cart_details'])) && (!empty($_SESSION['cart_details']))):?>                                
+                                	<input type="submit" name="updateOrderButton" class="update" value="" />
+					                <?php endif;?>                                                    
+                                </td>
+								<td width="280px" align="center">
+                                	<input type="button" id="backToShoppingButton" class="return" />
+                                </td>
+								<td width="280px" align="center">
+                					<?php if ((isset($_SESSION['cart_details'])) && (!empty($_SESSION['cart_details']))):?>                                
+                                	<input type="button" id="toCheckOutButton" class="checkout" />
+					                <?php endif;?>                                                    
+                                </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class="white-line">
+					<td colspan="5"><img src="<?php echo PUBLIC_PATH?>/images/white-line.gif" height="40px" /></td>
+				</tr>	
+			</table>
+            </form>
+		</div>
+	</div>
+	<div id="footer">
+        <div class="home"><a href="index.php"><span class="invisible">Home</span></a></div>
+        <div class="contact-us"><a href="contact_us.php"><span class="invisible">Contact Us</span></a></div>
+        <div class="privacy-policy"><a href="privacy_policy.php"><span class="invisible">Privacy Policy</span></a></div>
+        <div class="ikonixstudios"><a href="http://www.ikonixstudios.com" target="_blank"><span class="invisible">ikonix studios</span></a></div>
+    </div>
+</div>
+</body>
+</html>

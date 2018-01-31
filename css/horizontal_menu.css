@@ -1,0 +1,51 @@
+/* Ebos dropdown menu CSS */
+#sddm
+{	margin: 0;
+	padding: 0;
+	z-index: 30}
+
+#sddm li
+{	margin: 0;
+	padding: 0;
+	padding-top:5px;
+	list-style: none;
+	float: left;
+	font: bold 10px arial}
+
+#sddm li a
+{	display: inline;
+	margin: 0 1px 0 0;
+	padding: 1px 2px;
+	color: #FFF;
+	text-align: center;
+	text-decoration: none}
+
+#sddm li a:hover
+{	color: #CCCCCC} /* #49A3FF */
+
+#sddm div
+{	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0 13px 0 13px;
+	background: #1B2024;/* #EAEBD8; */
+	border: 0 solid #000000} /* #5970B2 */
+
+	#sddm div a
+	{	position: relative;
+		display: block;
+		margin: 0;
+		padding: 5px 10px;
+		width: auto;
+		white-space: nowrap;
+		text-align: left;
+		text-decoration: none;
+		background: #1B2024;/* #EAEBD8; */
+		color: #FFF;/* #2875DE */
+		font: bold 10px arial}
+
+	#sddm div a:hover
+	{	background: #1B2024;
+		color: #CCCCCC
+	}
+

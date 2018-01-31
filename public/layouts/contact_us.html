@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?=$html_title?></title>
+<link href="<?php echo CSS_PATH?>global.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.header{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($heading_image)) ? $heading_image : "")?>) 0 0 no-repeat;
+}	
+.banner{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($banner_image)) ? $banner_image : "")?>) 0 0 no-repeat;
+}
+</style>
+</head>
+<body>
+<div id="framesheet">
+	<div id="header" class="header">
+		<div class="view-cart"><a href="cart.php"><span class="invisible">View Cart</span></a></div>
+		<div class="news"><a href="news.php"><span class="invisible">News</span></a></div>
+		<div class="blog"><a href="blog.php"><span class="invisible">Blog</span></a></div>
+		<div class="email-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Email Us</span></a></div>
+	</div>
+	<div id="content-body">
+		<div id="banner" class="banner"></div>
+		<div id="shop-box">
+            <?php if (isset($error_message) && ($error_message)):?>
+            <span id="productQtyErrorMessage">Please fix these errors !</span>                        
+            <?php endif;?>
+ 			<?php if ((isset($_SESSION['mail_sent'])) && ($_SESSION['mail_sent'] == 'ok')):?>	  
+            <?php unset($_SESSION['mail_sent']);?>
+            <span id="productQtyInfoMessage">Mail sent successfully !</span>
+            <?php endif;?>     
+            <form id="contactusfillingform" name="contactusfillingform" method="post" action="">                
+            <div id="payment-data">
+                <div id="payment-address">
+                    <div class="address-box">
+                    	<table border="0" cellpadding="0" cellspacing="0">
+                        	<tr valign="top">
+                            	<td class="address-lable-left">Your Name :&nbsp;&nbsp;</td>
+                            	<td><input name="contactus[name]" type="text" class="input-element <?php echo ((isset($errors)) && (in_array('name', $errors['errorFields']))) ? 'errorInBack' : ''?>" value="" />&nbsp;</td>                                
+                            </tr>
+                        	<tr valign="top">
+                            	<td colspan="2">&nbsp;</td>
+                            </tr>
+                        	<tr valign="top">
+                            	<td class="address-lable-left">Your Email :&nbsp;&nbsp;</td>
+                            	<td><input name="contactus[email]" type="text" class="input-element <?php echo ((isset($errors)) && (in_array('email', $errors['errorFields']))) ? 'errorInBack' : ''?>" value="" />&nbsp;</td>                                
+                            </tr>
+                        	<tr valign="top">
+                            	<td colspan="2">&nbsp;</td>
+                            </tr>
+                        	<tr valign="top">
+                            	<td class="address-lable-left">Subject :&nbsp;&nbsp;</td>
+                            	<td><input name="contactus[subject]" type="text" class="input-element <?php echo ((isset($errors)) && (in_array('subject', $errors['errorFields']))) ? 'errorInBack' : ''?>" value="" />&nbsp;</td>                                
+                            </tr>
+                        	<tr valign="top">
+                            	<td colspan="2">&nbsp;</td>
+                            </tr>
+                        	<tr valign="top">
+                            	<td class="address-lable-left">Your Message :&nbsp;&nbsp;</td>
+                            	<td><textarea name="contactus[message]" class="input-element <?php echo ((isset($errors)) && (in_array('message', $errors['errorFields']))) ? 'errorInBack' : ''?>"></textarea><br />&nbsp;</td>                                
+                            </tr>
+                        	<tr valign="top">
+                            	<td colspan="2">&nbsp;</td>
+                            </tr>
+                        	<tr valign="top">
+                            	<td colspan="2"><input type="submit" name="contsctusbutton" class="complete-purchase-btn-element" value="Submit" /></td>                                
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div id="contactUsDiv">
+                	<span>MRS. RUSSELL’S</span>
+					<span>GOURMET HORSE COOKIES</span>
+					<span>CALL US: (210) 475-3226</span><br /><br />
+                    <span>6338 N. New Braunfels, #146, San Antonio, TX 78209</span>                    
+                </div>							
+            </div>
+            </form>
+		</div>
+	</div>
+	<div id="footer">
+        <div class="home"><a href="index.php"><span class="invisible">Home</span></a></div>
+        <div class="contact-us"><a href="contact_us.php"><span class="invisible">Contact Us</span></a></div>
+        <div class="privacy-policy"><a href="privacy_policy.php"><span class="invisible">Privacy Policy</span></a></div>
+        <div class="ikonixstudios"><a href="http://www.ikonixstudios.com" target="_blank"><span class="invisible">ikonix studios</span></a></div>
+    </div>
+</div>
+</body>
+</html>

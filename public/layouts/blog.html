@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?=$html_title?></title>
+<link href="<?php echo CSS_PATH?>global.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo str_replace('public/styles/', 'css/', CSS_PATH)?>pagination.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.header{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($heading_image)) ? $heading_image : "")?>) 0 0 no-repeat;
+}	
+.banner{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($banner_image)) ? $banner_image : "")?>) 0 0 no-repeat;
+}
+</style>
+</head>
+<body>
+<div id="framesheet">
+	<div id="header" class="header">
+		<div class="view-cart"><a href="cart.php"><span class="invisible">View Cart</span></a></div>
+		<div class="news"><a href="news.php"><span class="invisible">News</span></a></div>
+		<div class="blog"><a href="blog.php"><span class="invisible">Blog</span></a></div>
+		<div class="email-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Email Us</span></a></div>
+	</div>
+	<div id="content-body">
+		<div id="banner" class="banner"></div>
+		<div id="shop-box">
+			<div class="russell-s-blog">
+				<div class="paginationstyle">
+					<span style="visibility:hidden">pagination_old</span>
+				</div>
+            <?php if ((!$invalidPage) && ($allPosts)):?>
+            <div style="float:right;" class="paginationContainer"><?php echo $pagination;?></div>
+            <?php endif;?>
+			</div>
+            <?php 
+			if ((!$invalidPage) && ($allPosts)):
+            	foreach($allPosts as $eachPost):?>            
+			<div class="blog-post"><!-- start of blog post -->
+				<div class="blog-post-left">
+					<p class="blog-title"><?=$eachPost['post_title']?><span class="date"><?=$eachPost['date_created']?></span></p>
+					<div class="blog-img-holder"><img src="<?=BLOG_IMAGES_PATH.$eachPost['cover_image']?>" /></div>
+					<!--<p class="no-of-views"><?=$eachPost['no_of_hits']?></p>-->
+				</div>
+				<div class="blog-post-right"><?=$eachPost['post_content']?></div>
+			</div><!-- end of blog post -->
+            <?php endforeach;
+            endif;?>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="home"><a href="<?php echo WEB_PATH?>"><span class="invisible">Home</span></a></div>
+		<div class="contact-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Contact Us</span></a></div>
+		<div class="privacy-policy"><a href="<?php echo WEB_PATH?>privacy_policy.php"><span class="invisible">Privacy Policy</span></a></div>
+	</div>
+</div>
+</body>
+</html>

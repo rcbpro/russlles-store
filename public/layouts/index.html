@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="<?=$meta_keywords?>" />
+<meta name="description" content="<?=meta_description?>" />
+<title><?=$html_title?></title>
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link href="<?php echo CSS_PATH?>global.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH?>jquery.lightbox-0.5.css" media="screen" />
+<link href="<?php echo str_replace('public/styles/', 'css/', CSS_PATH)?>pagination.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.header{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($heading_image)) ? $heading_image : "")?>) 0 0 no-repeat;
+}	
+.banner{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($banner_image)) ? $banner_image : "")?>) 0 0 no-repeat;
+}
+</style>
+<script language="javascript" src="<?php echo JS_PATH?>jquery-1.7.1.min.js" type="text/javascript"></script>
+<script language="javascript" src="<?php echo JS_PATH?>jquery.lightbox-0.5.min.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+	$(function() { $('#products a').lightBox();});	
+	$(".prodcutWeight").change(function(){					
+		var selectedWeightOption = $(this).attr('id');	
+		$.getJSON('http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/ajax_functions.php?action=getSelectedPrice&priceId=' + $(this).val(), function(data) {
+			if (data){
+				$("#"+selectedWeightOption).css({"margin-left" : "13px"});
+				$("#products #productPrice_" + data.product_id).html("Price $" + data.price);
+				$("#products #quantityPerDozenWeight_" + data.product_id).val(data.loaf_type);				
+				$("#products #quantityPerDozenPrice_" + data.product_id).val(data.price);								
+				$("#products #quantityPerDozenProductId_" + data.product_id).val(data.product_id);												
+			}
+		});
+	});		
+})
+</script>
+</head>
+<body>
+<div id="framesheet">
+	<div id="header" class="header">
+		<div class="view-cart"><a href="cart.php"><span class="invisible">View Cart</span></a></div>
+		<div class="news"><a href="news.php"><span class="invisible">News</span></a></div>
+		<div class="blog"><a href="blog.php"><span class="invisible">Blog</span></a></div>
+		<div class="email-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Email Us</span></a></div>
+	</div>
+	<div id="content-body">
+		<div id="banner" class="banner"></div>
+		<div id="content">
+			<div id="left-column">
+				<h1 class="home-title"><span class="invisible"><?=$heading?></span></h1>
+				<?=$main_content?>
+			</div>
+			<div id="right-column"><span class="invisible">Cookie Delights are made with using all natural ingredients, and just the right amounts of sweet and delicious candies or fruit.</span></div>
+		</div>
+		<div id="shop-box">
+        	<div class="paginationstyle">
+				<span style="visibility:hidden">pagination_old</span>
+			</div>
+            <?php if ((!$invalidPage) && ($products)):?>
+            <div style="float:right;" class="paginationContainer"><?php echo $pagination;?></div>
+			</div>
+			<div class="shop-now"><span class="invisible">Shop Now.</span>
+            <?php if ((isset($errorMessage)) && ($errorMessage != "")):?>
+            <span id="productQtyErrorMessage">Please select the weight !</span>
+            <?php endif;?>
+            <?php if ((isset($errorMessageInQunatityPerDozen)) && ($errorMessageInQunatityPerDozen != "")):?>
+            <span id="productQtyErrorMessage">Please select the quantity !</span>
+            <?php endif;?>
+            <?php if ((isset($InvalidValInQunatityPerDozen)) && ($InvalidValInQunatityPerDozen != "")):?>
+            <span id="productQtyErrorMessage">Quantity shoud be a number !</span>
+            <?php endif;?>
+            </div>
+            <?php endif;?>
+			<ul class="products" id="products">
+            <?php 
+			if ((!$invalidPage) && ($products)):
+                foreach($products as $eachProdcut):
+                	$product_prices_details = $productsClass->getProductPrices($eachProdcut['product_id']);
+            ?>
+				<li>
+                	<form name="products_submit_form" method="post" action="">                    
+					<a href="<?php echo PRODUCT_IMAGES_PATH.$eachProdcut['product_image']?>"><img width="200" height="250" style="height:250px;" src="<?php echo PRODUCT_IMAGES_PATH.$eachProdcut['product_image']?>" /></a>
+					<p><strong><?php echo $eachProdcut['product_name']?></strong></p>
+					<p><em><?php echo $eachProdcut['product_description']?></em></p>
+					<p>
+                    	<em>
+                        	<span id="productPrice_<?php echo $eachProdcut['product_id']?>">Price $</span>                            
+                        </em>
+						<span class="element">
+                        	<select id="prodcutWeight_<?=$eachProdcut['product_id']?>" name="prodcutWeight" class="input-element-quantity prodcutWeight" style="margin-left:45px;width:75px;">
+                                <option value="">Weight</option>                            
+                            	<?php foreach($product_prices_details as $eachPrices):?>
+                                <option value="<?=$eachPrices['id']?>" <?=(($_POST['prodcutWeight'] == $eachPrices['price']) ? "selected" : "")?>><?=$eachPrices['loaf_type']?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </span>
+                    </p>
+					<p class="form-container">
+						<span class="lable">Quantity :</span>
+                        <input name="cart_details[quantityPerDozen]" type="text" style="margin-left:-55px; width:75px;" />
+                        <input name="cart_details[quantityPerDozenWeight]" id="quantityPerDozenWeight_<?=$eachProdcut['product_id']?>" type="hidden" value="" />                        
+                        <input name="cart_details[quantityPerDozenPrice]" id="quantityPerDozenPrice_<?=$eachProdcut['product_id']?>" type="hidden" value="" />                                                
+                        <input name="cart_details[quantityPerDozenProductId]" id="quantityPerDozenProductId_<?=$eachProdcut['product_id']?>" type="hidden" value="" />                                                
+					</p>
+                    <p class="form-container">
+						<input id="addToCartButton" type="submit" class="btn-add-to-cart" value="" />
+					</p>	
+					</form>                                            
+				</li>
+                <?php endforeach;?>
+            <?php else:?>
+            <span id="productQtyErrorMessage">Invalid Page !</span>    
+            <?php endif;?>
+			</ul>
+		</div>
+	</div>
+	<div id="footer">
+        <div class="home"><a href="index.php"><span class="invisible">Home</span></a></div>
+        <div class="contact-us"><a href="contact_us.php"><span class="invisible">Contact Us</span></a></div>
+        <div class="privacy-policy"><a href="privacy_policy.php"><span class="invisible">Privacy Policy</span></a></div>
+        <div class="ikonixstudios"><a href="http://www.ikonixstudios.com" target="_blank"><span class="invisible">ikonix studios</span></a></div>
+    </div>
+</div>
+</body>
+</html>

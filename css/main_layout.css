@@ -1,0 +1,14 @@
+#main{
+	width: 900px;
+}
+
+#header{
+	background:url(../images/header_image.jpg) no-repeat;
+	width:900px;
+	height:110px;
+}
+
+#menu{
+	background:url(../images/Untitled-2.png) no-repeat right;
+	
+}

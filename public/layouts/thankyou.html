@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?=$html_title?></title>
+<link href="<?php echo CSS_PATH?>global.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo CSS_PATH?>CalendarControl.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.header{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($heading_image)) ? $heading_image : "")?>) 0 0 no-repeat;
+}	
+.banner{
+	background: url(http://<?=$_SERVER['HTTP_HOST']?>/www.russlls-famous-cookies.com/images/page-images/<?=((isset($banner_image)) ? $banner_image : "")?>) 0 0 no-repeat;
+}
+</style>
+<script src="<?php echo JS_PATH?>CalendarControl.js" language="javascript"></script>
+<script src="<?php echo JS_PATH?>jquery-1.7.1.min.js" language="javascript"></script>
+<script src="<?php echo JS_PATH?>other.js.php" language="javascript"></script>
+</head>
+<body>
+<div id="framesheet">
+	<div id="header" class="header">
+		<div class="view-cart"><a href="cart.php"><span class="invisible">View Cart</span></a></div>
+		<div class="news"><a href="news.php"><span class="invisible">News</span></a></div>
+		<div class="blog"><a href="blog.php"><span class="invisible">Blog</span></a></div>
+		<div class="email-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Email Us</span></a></div>
+	</div>
+	<div id="content-body">
+		<div id="banner" class="banner"></div>
+		<div class="back-to-home"><a href="<?php echo WEB_PATH?>index.php">Back To Shop Page</a></div>
+		<div id="shop-box">
+			<div id="payment-box">
+            	<?php if ((isset($_SESSION['mail_sent'])) && ($_SESSION['mail_sent'] == 'ok')):?>
+                <?php unset($_SESSION['mail_sent']);?>
+            	<span id="productQtyInfoMessage" style="margin:0;">Mail has been sent to your mail address regarding your order. Thank you !</span><br />
+            	<span id="productQtyInfoMessage" style="margin:0;">Click <a href="http://trkcnfrm1.smi.usps.com/PTSInternetWeb/index.jsp">here</a> to track your shipping order.</span>                
+                <?php endif;?>
+			</div>
+		</div>
+		<br /><br /><br />
+	</div>
+	<div id="footer">
+		<div class="home"><a href="<?php echo WEB_PATH?>"><span class="invisible">Home</span></a></div>
+		<div class="contact-us"><a href="<?php echo WEB_PATH?>contact_us.php"><span class="invisible">Contact Us</span></a></div>
+		<div class="privacy-policy"><a href="<?php echo WEB_PATH?>privacy_policy.php"><span class="invisible">Privacy Policy</span></a></div>
+	</div>
+</div>
+</body>
+</html>
